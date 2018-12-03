@@ -1,0 +1,189 @@
+---
+title: "UKBiobank Accelerometer Data and Biases"
+subtitle: "John Muschelli, \\@StrictlyStat,\n Johns Hopkins University"
+author: "presentation: http://johnmuschelli.com/CMStat_2018"
+date: "source: http://github.com/muschellij2/CMStat_2018"
+output:
+  ioslides_presentation:
+    self_contained: false
+    css: JSM_2017.css
+    widescreen: true
+    includes:
+      in_header: header.html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, 
+                      warning = FALSE, 
+                      message = FALSE)
+```
+
+
+## Carson Sievert: plotly
+
+<div class="container"> 
+   <div class="left-half" style="font-size: 28pt;">
+
+Create an R interface that is easyfor the user and just "works"
+
+Plotly is awesome 
+  - R package easiest implementation of quick, great interactive graphics
+  - but still bound to plotly.js and its implementations
+
+</div>
+   <div class="right-half" style="font-size: 20pt;">
+   <img src="images/ig_plotly.jpg" style="width: 100%; display: inline; margin: auto;">
+  </div>
+</div> 
+
+# My opinion: ggplotly reinforces <br> ggplot2 > base <br> <img src="images/ig_screaming.gif" style="width: 60%; display: inline; margin: auto;">
+
+## Leo Collado Torres: shinycsv and eQTL browsing
+
+<div class="container"> 
+   <div class="left-half" style="font-size: 28pt;">
+
+- Interactive Graphics are good, but have some drawbacks
+- Re-use other tools 
+- Make it fast and simple
+- Iterative 
+- Minimize user options: make a decision 
+- Make interactive beer contests
+
+</div>
+   <div class="right-half" style="font-size: 20pt;">
+<img src="images/ig_yeah.jpg" style="width: 70%; display: inline; margin: auto;">
+<img src="images/ig_decide.jpg" style="width: 40%; display: inline; margin: auto;">
+</div>
+</div>
+
+## Yesteryears in R: PDF with multiple images
+
+<img src="images/ig_pdf.jpg" style="width: 60%; display: block; margin: auto;">
+
+
+## Sean Kross: p5
+
+<div class="container"> 
+   <div class="left-half" style="font-size: 28pt;">
+
+- Use htmlwidgets: 10 lines of JS code
+  - enough JS to be dangerous?
+- Models are hard
+- Maybe use shape people vs. people people
+- Formula syntax to pass JS-type variables
+
+</div>
+   <div class="right-half" style="font-size: 20pt;">
+
+<!-- <img src="images/ig_setit.png" style="width: 100%; display: inline; margin: auto;"> -->
+<img src="images/ig_easy.jpg" style="width: 100%; display: inline; margin: auto;">
+
+
+</div>
+</div>
+
+
+
+## Interactive Graphics are Hard
+
+<img src="images/ig_hard.jpg" style="width: 60%; display: block; margin: auto;">
+
+## Interactive Graphics <s>are</s> were Hard
+
+<div class="container" style="font-size: 28pt;"> 
+<div class="left-half">
+
+- ggobi/xgobi
+- plotly (and `ggplotly`)
+- htmlwidgets
+- Shiny
+- manipulate 
+- ggvis/vegalite
+- rCharts
+- leaflet
+
+</div>
+<div class="right-half">
+
+- rbokeh: http://hafen.github.io/rbokeh/
+- trelliscope: http://deltarho.org/docs-trelliscope/
+- **crosstalk:** http://rstudio.github.io/crosstalk/
+- googleVis
+- p5*
+
+</div>
+
+
+## But I don't use R!
+
+<div class="container" style="font-size: 28pt;">
+
+- Python has a lot of implementations similar to what we've discussed
+- Dash: Interactive, reactive web apps in pure python (from Plotly)
+- Stata: stata2leaflet, stata2d3, gchart (never have used them)
+- SAS - ActiveX?  - not easy to disseminate
+- Tableau
+
+</div>
+
+# Interactive Graphics are <br> "Catching up to the 90s" <br> (Di Cook)
+
+# Use of interactive graphics is increasing <br> (I think)
+
+## Custom Interactive Graphics are Still Hard
+
+<!-- class="left-half" -->
+<div  style="font-size: 28pt;">
+
+- GGobi is the standard to ascribe to in many ways (I haven't used extensively)
+- Implementing many of these widgets for HTML would be good
+    - \*cough\* PhD Thesis \*cough\*
+- Need to teach these tools
+
+</div>
+
+## Some rules for using interactive graphics
+
+<div class="container" style="font-size: 28pt;">
+
+1. Make it simple 
+2. Give few choices, if any
+3. Ask for specific feedback
+4. Make it fast, use tools available even if clunky.  
+    - I tend to use Shiny to prototype
+    - then ask people better than JS to help
+
+</div>
+
+# Shiny Apps are good <br> call them something else <br> "Interactive Website"?  
+
+## Collaboration and interactive graphics
+
+<div class="container" style="font-size: 26pt;">
+
+1. Shiny is good, but can't be emailed, need server (DO)
+2. HTML and JavaScript is backended for most (or all) of what we discussed
+3. Collaborators still want to know "how can I put in my presentation"
+    - GH Pages - free hosting! Also, standalone HTML
+4. Make it, then ask if it's OK to take some time to do it
+
+</div>
+
+
+# Publishing Interactive Graphics in Papers
+
+# Faculty Office Hour
+
+## Questions to the speakers
+
+<br>
+<div class="container" style="font-size: 35pt;">
+
+1.  How did you learn these skills (class vs. on own)?
+2.  Where does someone start?
+3.  How do you convince collaborators of the investment in time/energy/adapting HTML?
+
+</div>
+
+

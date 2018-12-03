@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Making Interactive Graphics: A Discussion</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'Making Interactive Graphics: A Discussion',
+                        subtitle: 'John Muschelli, @StrictlyStat, Johns Hopkins University',
+                useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                      },
+
+      // Author information
+      presenters: [
+            {
+        name:  'presentation: <a href="http://johnmuschelli.com/JSM_2017" class="uri">http://johnmuschelli.com/JSM_2017</a>' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <link rel="stylesheet" type="text/css" href="papaya.css?version=0.8&build=979" />
+    <script type="text/javascript" src="papaya.js?version=0.8&build=979">
+      
+    </script>
+      <script type="text/javascript"> 
+        var params = []; 
+        params["images"] = ["reduced_t1.nii.gz", "overlay.nii.gz"]; 
+        params["overlay.nii.gz"] = {lut: "Overlay (Negatives)"};
+        </script>
+  <link href="index_files/ioslides-13.5.1/fonts/fonts.css" rel="stylesheet" />
+  <link href="index_files/ioslides-13.5.1/theme/css/default.css" rel="stylesheet" />
+  <link href="index_files/ioslides-13.5.1/theme/css/phone.css" rel="stylesheet" />
+  <script src="index_files/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+  <script src="index_files/ioslides-13.5.1/js/prettify/prettify.js"></script>
+  <script src="index_files/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+  <script src="index_files/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+  <script src="index_files/ioslides-13.5.1/js/hammer.js"></script>
+  <script src="index_files/ioslides-13.5.1/js/slide-controller.js"></script>
+  <script src="index_files/ioslides-13.5.1/js/slide-deck.js"></script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+
+  </style>
+
+  <link rel="stylesheet" href="JSM_2017.css" type="text/css" />
+
+</head>
+
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">source: <a href="http://github.com/muschellij2/JSM_2017" class="uri">http://github.com/muschellij2/JSM_2017</a></p>
+          </hgroup>
+  </slide>
+
+<slide class=''><hgroup><h2>Carson Sievert: plotly</h2></hgroup><article  id="carson-sievert-plotly">
+
+<div class="container">
+<div class="left-half" style="font-size: 28pt;">
+<p>Create an R interface that is easyfor the user and just &quot;works&quot;</p>
+
+<p>Plotly is awesome - R package easiest implementation of quick, great interactive graphics - but still bound to plotly.js and its implementations</p></div>
+
+<div class="right-half" style="font-size: 20pt;">
+<img src="images/ig_plotly.jpg" style="width: 100%; display: inline; margin: auto;"></div></div>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>My opinion: ggplotly reinforces <br> ggplot2 &gt; base <br> <img src="images/ig_screaming.gif" style="width: 60%; display: inline; margin: auto;"></h2></hgroup><article  id="my-opinion-ggplotly-reinforces-ggplot2-base">
+
+</article></slide><slide class=''><hgroup><h2>Leo Collado Torres: shinycsv and eQTL browsing</h2></hgroup><article  id="leo-collado-torres-shinycsv-and-eqtl-browsing">
+
+<div class="container">
+<div class="left-half" style="font-size: 28pt;">
+<ul>
+<li>Interactive Graphics are good, but have some drawbacks</li>
+<li>Re-use other tools</li>
+<li>Make it fast and simple</li>
+<li>Iterative</li>
+<li>Minimize user options: make a decision</li>
+<li>Make interactive beer contests</li>
+</ul></div>
+
+<div class="right-half" style="font-size: 20pt;">
+<p><img src="images/ig_yeah.jpg" style="width: 70%; display: inline; margin: auto;"> <img src="images/ig_decide.jpg" style="width: 40%; display: inline; margin: auto;"></p></div></div>
+
+</article></slide><slide class=''><hgroup><h2>Yesteryears in R: PDF with multiple images</h2></hgroup><article  id="yesteryears-in-r-pdf-with-multiple-images">
+
+<p><img src="images/ig_pdf.jpg" style="width: 60%; display: block; margin: auto;"></p>
+
+</article></slide><slide class=''><hgroup><h2>Sean Kross: p5</h2></hgroup><article  id="sean-kross-p5">
+
+<div class="container">
+<div class="left-half" style="font-size: 28pt;">
+<ul>
+<li>Use htmlwidgets: 10 lines of JS code</li>
+<li>enough JS to be dangerous?</li>
+<li>Models are hard</li>
+<li>Maybe use shape people vs. people people</li>
+<li>Formula syntax to pass JS-type variables</li>
+</ul></div>
+
+<div class="right-half" style="font-size: 20pt;">
+<!-- <img src="images/ig_setit.png" style="width: 100%; display: inline; margin: auto;"> -->
+
+<p><img src="images/ig_easy.jpg" style="width: 100%; display: inline; margin: auto;"></p></div></div>
+
+</article></slide><slide class=''><hgroup><h2>Interactive Graphics are Hard</h2></hgroup><article  id="interactive-graphics-are-hard">
+
+<p><img src="images/ig_hard.jpg" style="width: 60%; display: block; margin: auto;"></p>
+
+</article></slide><slide class=''><hgroup><h2>Interactive Graphics <s>are</s> were Hard</h2></hgroup><article  id="interactive-graphics-are-were-hard">
+
+<div class="container" style="font-size: 28pt;">
+
+<div class="left-half">
+<ul>
+<li>ggobi/xgobi</li>
+<li>plotly (and <code>ggplotly</code>)</li>
+<li>htmlwidgets</li>
+<li>Shiny</li>
+<li>manipulate</li>
+<li>ggvis/vegalite</li>
+<li>rCharts</li>
+<li>leaflet</li>
+</ul></div>
+
+<div class="right-half">
+<ul>
+<li>rbokeh: <a href='http://hafen.github.io/rbokeh/' title=''>http://hafen.github.io/rbokeh/</a></li>
+<li>trelliscope: <a href='http://deltarho.org/docs-trelliscope/' title=''>http://deltarho.org/docs-trelliscope/</a></li>
+<li><strong>crosstalk:</strong> <a href='http://rstudio.github.io/crosstalk/' title=''>http://rstudio.github.io/crosstalk/</a></li>
+<li>googleVis</li>
+<li>p5*</li>
+</ul></div>
+
+</article></slide><slide class=''><hgroup><h2>But I don&#39;t use R!</h2></hgroup><article  id="but-i-dont-use-r">
+
+<div class="container" style="font-size: 28pt;">
+<ul>
+<li>Python has a lot of implementations similar to what we&#39;ve discussed</li>
+<li>Dash: Interactive, reactive web apps in pure python (from Plotly)</li>
+<li>Stata: stata2leaflet, stata2d3, gchart (never have used them)</li>
+<li>SAS - ActiveX? - not easy to disseminate</li>
+<li>Tableau</li>
+</ul></div>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Interactive Graphics are <br> &quot;Catching up to the 90s&quot; <br> (Di Cook)</h2></hgroup><article  id="interactive-graphics-are-catching-up-to-the-90s-di-cook">
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Use of interactive graphics is increasing <br> (I think)</h2></hgroup><article  id="use-of-interactive-graphics-is-increasing-i-think">
+
+</article></slide><slide class=''><hgroup><h2>Custom Interactive Graphics are Still Hard</h2></hgroup><article  id="custom-interactive-graphics-are-still-hard">
+
+<!-- class="left-half" -->
+
+<div style="font-size: 28pt;">
+<ul>
+<li>GGobi is the standard to ascribe to in many ways (I haven&#39;t used extensively)</li>
+<li>Implementing many of these widgets for HTML would be good
+
+<ul>
+<li>*cough* PhD Thesis *cough*</li>
+</ul></li>
+<li>Need to teach these tools</li>
+</ul></div>
+
+</article></slide><slide class=''><hgroup><h2>Some rules for using interactive graphics</h2></hgroup><article  id="some-rules-for-using-interactive-graphics">
+
+<div class="container" style="font-size: 28pt;">
+<ol>
+<li>Make it simple</li>
+<li>Give few choices, if any</li>
+<li>Ask for specific feedback</li>
+<li>Make it fast, use tools available even if clunky.
+
+<ul>
+<li>I tend to use Shiny to prototype</li>
+<li>then ask people better than JS to help</li>
+</ul></li>
+</ol></div>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Shiny Apps are good <br> call them something else <br> &quot;Interactive Website&quot;?</h2></hgroup><article  id="shiny-apps-are-good-call-them-something-else-interactive-website">
+
+</article></slide><slide class=''><hgroup><h2>Collaboration and interactive graphics</h2></hgroup><article  id="collaboration-and-interactive-graphics">
+
+<div class="container" style="font-size: 26pt;">
+<ol>
+<li>Shiny is good, but can&#39;t be emailed, need server (DO)</li>
+<li>HTML and JavaScript is backended for most (or all) of what we discussed</li>
+<li>Collaborators still want to know &quot;how can I put in my presentation&quot;
+
+<ul>
+<li>GH Pages - free hosting! Also, standalone HTML</li>
+</ul></li>
+<li>Make it, then ask if it&#39;s OK to take some time to do it</li>
+</ol></div>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Publishing Interactive Graphics in Papers</h2></hgroup><article  id="publishing-interactive-graphics-in-papers">
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Faculty Office Hour</h2></hgroup><article  id="faculty-office-hour">
+
+</article></slide><slide class=''><hgroup><h2>Questions to the speakers</h2></hgroup><article  id="questions-to-the-speakers">
+
+<br>
+
+<div class="container" style="font-size: 35pt;">
+<ol>
+<li>How did you learn these skills (class vs. on own)?</li>
+<li>Where does someone start?</li>
+<li>How do you convince collaborators of the investment in time/energy/adapting HTML?</li>
+</ol></div></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>
