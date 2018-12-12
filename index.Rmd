@@ -6,7 +6,7 @@ date: "source: http://github.com/muschellij2/CMStat_2018"
 output:
   ioslides_presentation:
     self_contained: false
-    css: JSM_2017.css
+    css: CMS_2018.css
     widescreen: true
     includes:
       in_header: header.html
@@ -19,22 +19,50 @@ knitr::opts_chunk$set(echo = FALSE,
 ```
 
 
-## Carson Sievert: plotly
 
-<div class="container"> 
-   <div class="left-half" style="font-size: 28pt;">
+## UK Biobank Data
 
-Create an R interface that is easyfor the user and just "works"
+- 500,000 participants
+- 100,000
 
-Plotly is awesome 
-  - R package easiest implementation of quick, great interactive graphics
-  - but still bound to plotly.js and its implementations
 
-</div>
-   <div class="right-half" style="font-size: 20pt;">
-   <img src="images/ig_plotly.jpg" style="width: 100%; display: inline; margin: auto;">
-  </div>
-</div> 
+
+
+## UK Biobank Data
+
+```{r, out.width="70%", fig.align="center"}
+knitr::include_graphics("images/exclusion_criteria.png")
+```
+
+
+## Accelerometry Available
+
+- Axtivity CWA format (Highest resolution, 30hz)
+  - very large for 100K subjects
+- 5 second level data
+  - imputation done
+- Summaries - mean activity (in milli-g)
+
+
+
+
+
+
+## Goal of analysis
+
+Explore the data
+Reproduce findings
+
+https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0169649
+
+## UK Biobank Data
+
+```{r, out.width="70%", fig.align="center"}
+knitr::include_graphics("images/plos_age_plot.png")
+```
+
+Doherty, Aiden, et al. "Large scale population assessment of physical activity using wrist worn accelerometers: The UK Biobank Study." PloS one 12.2 (2017): e0169649.
+
 
 # My opinion: ggplotly reinforces <br> ggplot2 > base <br> <img src="images/ig_screaming.gif" style="width: 60%; display: inline; margin: auto;">
 

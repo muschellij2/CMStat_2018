@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Making Interactive Graphics: A Discussion</title>
+  <title>UKBiobank Accelerometer Data and Biases</title>
 
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -20,7 +20,7 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
-                title: 'Making Interactive Graphics: A Discussion',
+                title: 'UKBiobank Accelerometer Data and Biases',
                         subtitle: 'John Muschelli, @StrictlyStat, Johns Hopkins University',
                 useBuilds: true,
         usePrettify: true,
@@ -31,7 +31,7 @@
       // Author information
       presenters: [
             {
-        name:  'presentation: <a href="http://johnmuschelli.com/JSM_2017" class="uri">http://johnmuschelli.com/JSM_2017</a>' ,
+        name:  'presentation: <a href="http://johnmuschelli.com/CMStat_2018" class="uri">http://johnmuschelli.com/CMStat_2018</a>' ,
         company: '',
         gplus: '',
         twitter: '',
@@ -104,24 +104,35 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">source: <a href="http://github.com/muschellij2/JSM_2017" class="uri">http://github.com/muschellij2/JSM_2017</a></p>
+            <p style="margin-top: 6px; margin-left: -2px;">source: <a href="http://github.com/muschellij2/CMStat_2018" class="uri">http://github.com/muschellij2/CMStat_2018</a></p>
           </hgroup>
   </slide>
 
-<slide class=''><hgroup><h2>Carson Sievert: plotly</h2></hgroup><article  id="carson-sievert-plotly">
+<slide class=""><hgroup><h2>UK Biobank Data</h2></hgroup><article  id="uk-biobank-data">
+
+<ul>
+<li>500,000 participants</li>
+<li>100,000</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>UK Biobank Data</h2></hgroup><article  id="uk-biobank-data-1">
+
+<p><img src="images/exclusion_criteria.png" width="70%" style="display: block; margin: auto;" /></p>
+
+</article></slide><slide class=""><hgroup><h2>Carson Sievert: plotly</h2></hgroup><article  id="carson-sievert-plotly">
 
 <div class="container">
 <div class="left-half" style="font-size: 28pt;">
-<p>Create an R interface that is easyfor the user and just &quot;works&quot;</p>
+<p>Create an R interface that is easyfor the user and just &ldquo;works&rdquo;</p>
 
 <p>Plotly is awesome - R package easiest implementation of quick, great interactive graphics - but still bound to plotly.js and its implementations</p></div>
 
 <div class="right-half" style="font-size: 20pt;">
 <img src="images/ig_plotly.jpg" style="width: 100%; display: inline; margin: auto;"></div></div>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>My opinion: ggplotly reinforces <br> ggplot2 &gt; base <br> <img src="images/ig_screaming.gif" style="width: 60%; display: inline; margin: auto;"></h2></hgroup><article  id="my-opinion-ggplotly-reinforces-ggplot2-base">
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>My opinion: ggplotly reinforces <br> ggplot2 &gt; base <br> <img src="images/ig_screaming.gif" style="width: 60%; display: inline; margin: auto;"></h2></hgroup><article  id="my-opinion-ggplotly-reinforces-ggplot2-base">
 
-</article></slide><slide class=''><hgroup><h2>Leo Collado Torres: shinycsv and eQTL browsing</h2></hgroup><article  id="leo-collado-torres-shinycsv-and-eqtl-browsing">
+</article></slide><slide class=""><hgroup><h2>Leo Collado Torres: shinycsv and eQTL browsing</h2></hgroup><article  id="leo-collado-torres-shinycsv-and-eqtl-browsing">
 
 <div class="container">
 <div class="left-half" style="font-size: 28pt;">
@@ -137,19 +148,22 @@
 <div class="right-half" style="font-size: 20pt;">
 <p><img src="images/ig_yeah.jpg" style="width: 70%; display: inline; margin: auto;"> <img src="images/ig_decide.jpg" style="width: 40%; display: inline; margin: auto;"></p></div></div>
 
-</article></slide><slide class=''><hgroup><h2>Yesteryears in R: PDF with multiple images</h2></hgroup><article  id="yesteryears-in-r-pdf-with-multiple-images">
+</article></slide><slide class=""><hgroup><h2>Yesteryears in R: PDF with multiple images</h2></hgroup><article  id="yesteryears-in-r-pdf-with-multiple-images">
 
 <p><img src="images/ig_pdf.jpg" style="width: 60%; display: block; margin: auto;"></p>
 
-</article></slide><slide class=''><hgroup><h2>Sean Kross: p5</h2></hgroup><article  id="sean-kross-p5">
+</article></slide><slide class=""><hgroup><h2>Sean Kross: p5</h2></hgroup><article  id="sean-kross-p5">
 
 <div class="container">
 <div class="left-half" style="font-size: 28pt;">
 <ul>
-<li>Use htmlwidgets: 10 lines of JS code</li>
+<li>Use htmlwidgets: 10 lines of JS code
+
+<ul>
 <li>enough JS to be dangerous?</li>
+</ul></li>
 <li>Models are hard</li>
-<li>Maybe use shape people vs. people people</li>
+<li>Maybe use shape people vs. people people</li>
 <li>Formula syntax to pass JS-type variables</li>
 </ul></div>
 
@@ -158,11 +172,11 @@
 
 <p><img src="images/ig_easy.jpg" style="width: 100%; display: inline; margin: auto;"></p></div></div>
 
-</article></slide><slide class=''><hgroup><h2>Interactive Graphics are Hard</h2></hgroup><article  id="interactive-graphics-are-hard">
+</article></slide><slide class=""><hgroup><h2>Interactive Graphics are Hard</h2></hgroup><article  id="interactive-graphics-are-hard">
 
 <p><img src="images/ig_hard.jpg" style="width: 60%; display: block; margin: auto;"></p>
 
-</article></slide><slide class=''><hgroup><h2>Interactive Graphics <s>are</s> were Hard</h2></hgroup><article  id="interactive-graphics-are-were-hard">
+</article></slide><slide class=""><hgroup><h2>Interactive Graphics <s>are</s> were Hard</h2></hgroup><article  id="interactive-graphics-are-were-hard">
 
 <div class="container" style="font-size: 28pt;">
 
@@ -187,28 +201,28 @@
 <li>p5*</li>
 </ul></div>
 
-</article></slide><slide class=''><hgroup><h2>But I don&#39;t use R!</h2></hgroup><article  id="but-i-dont-use-r">
+</article></slide><slide class=""><hgroup><h2>But I don’t use R!</h2></hgroup><article  id="but-i-dont-use-r">
 
 <div class="container" style="font-size: 28pt;">
 <ul>
-<li>Python has a lot of implementations similar to what we&#39;ve discussed</li>
+<li>Python has a lot of implementations similar to what we’ve discussed</li>
 <li>Dash: Interactive, reactive web apps in pure python (from Plotly)</li>
 <li>Stata: stata2leaflet, stata2d3, gchart (never have used them)</li>
 <li>SAS - ActiveX? - not easy to disseminate</li>
 <li>Tableau</li>
 </ul></div>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Interactive Graphics are <br> &quot;Catching up to the 90s&quot; <br> (Di Cook)</h2></hgroup><article  id="interactive-graphics-are-catching-up-to-the-90s-di-cook">
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Interactive Graphics are <br> &ldquo;Catching up to the 90s&rdquo; <br> (Di Cook)</h2></hgroup><article  id="interactive-graphics-are-catching-up-to-the-90s-di-cook">
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Use of interactive graphics is increasing <br> (I think)</h2></hgroup><article  id="use-of-interactive-graphics-is-increasing-i-think">
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Use of interactive graphics is increasing <br> (I think)</h2></hgroup><article  id="use-of-interactive-graphics-is-increasing-i-think">
 
-</article></slide><slide class=''><hgroup><h2>Custom Interactive Graphics are Still Hard</h2></hgroup><article  id="custom-interactive-graphics-are-still-hard">
+</article></slide><slide class=""><hgroup><h2>Custom Interactive Graphics are Still Hard</h2></hgroup><article  id="custom-interactive-graphics-are-still-hard">
 
 <!-- class="left-half" -->
 
 <div style="font-size: 28pt;">
 <ul>
-<li>GGobi is the standard to ascribe to in many ways (I haven&#39;t used extensively)</li>
+<li>GGobi is the standard to ascribe to in many ways (I haven’t used extensively)</li>
 <li>Implementing many of these widgets for HTML would be good
 
 <ul>
@@ -217,7 +231,7 @@
 <li>Need to teach these tools</li>
 </ul></div>
 
-</article></slide><slide class=''><hgroup><h2>Some rules for using interactive graphics</h2></hgroup><article  id="some-rules-for-using-interactive-graphics">
+</article></slide><slide class=""><hgroup><h2>Some rules for using interactive graphics</h2></hgroup><article  id="some-rules-for-using-interactive-graphics">
 
 <div class="container" style="font-size: 28pt;">
 <ol>
@@ -232,33 +246,33 @@
 </ul></li>
 </ol></div>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Shiny Apps are good <br> call them something else <br> &quot;Interactive Website&quot;?</h2></hgroup><article  id="shiny-apps-are-good-call-them-something-else-interactive-website">
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Shiny Apps are good <br> call them something else <br> &ldquo;Interactive Website&rdquo;?</h2></hgroup><article  id="shiny-apps-are-good-call-them-something-else-interactive-website">
 
-</article></slide><slide class=''><hgroup><h2>Collaboration and interactive graphics</h2></hgroup><article  id="collaboration-and-interactive-graphics">
+</article></slide><slide class=""><hgroup><h2>Collaboration and interactive graphics</h2></hgroup><article  id="collaboration-and-interactive-graphics">
 
 <div class="container" style="font-size: 26pt;">
 <ol>
-<li>Shiny is good, but can&#39;t be emailed, need server (DO)</li>
+<li>Shiny is good, but can’t be emailed, need server (DO)</li>
 <li>HTML and JavaScript is backended for most (or all) of what we discussed</li>
-<li>Collaborators still want to know &quot;how can I put in my presentation&quot;
+<li>Collaborators still want to know &ldquo;how can I put in my presentation&rdquo;
 
 <ul>
 <li>GH Pages - free hosting! Also, standalone HTML</li>
 </ul></li>
-<li>Make it, then ask if it&#39;s OK to take some time to do it</li>
+<li>Make it, then ask if it’s OK to take some time to do it</li>
 </ol></div>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Publishing Interactive Graphics in Papers</h2></hgroup><article  id="publishing-interactive-graphics-in-papers">
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Publishing Interactive Graphics in Papers</h2></hgroup><article  id="publishing-interactive-graphics-in-papers">
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Faculty Office Hour</h2></hgroup><article  id="faculty-office-hour">
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Faculty Office Hour</h2></hgroup><article  id="faculty-office-hour">
 
-</article></slide><slide class=''><hgroup><h2>Questions to the speakers</h2></hgroup><article  id="questions-to-the-speakers">
+</article></slide><slide class=""><hgroup><h2>Questions to the speakers</h2></hgroup><article  id="questions-to-the-speakers">
 
 <br>
 
 <div class="container" style="font-size: 35pt;">
 <ol>
-<li>How did you learn these skills (class vs. on own)?</li>
+<li>How did you learn these skills (class vs. on own)?</li>
 <li>Where does someone start?</li>
 <li>How do you convince collaborators of the investment in time/energy/adapting HTML?</li>
 </ol></div></article></slide>
