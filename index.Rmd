@@ -1,33 +1,43 @@
 ---
-title: "UKBiobank Accelerometer Data and Biases"
+title: "My First Exposure to Accelerometer Data was for 100000 People from UK Biobank"
 subtitle: "John Muschelli, \\@StrictlyStat,\n Johns Hopkins University"
 author: "presentation: http://johnmuschelli.com/CMStat_2018"
 date: "source: http://github.com/muschellij2/CMStat_2018"
 output:
   ioslides_presentation:
-    self_contained: false
-    css: CMS_2018.css
+    css: CMStat_2018.css
     widescreen: true
-    includes:
-      in_header: header.html
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, 
                       warning = FALSE, 
                       message = FALSE)
+library(readr)
+library(knitr)
+library(kableExtra)
+options("kableExtra.html.bsTable" = TRUE)
 ```
-
 
 
 ## UK Biobank Data
 
 - 500,000 participants
-- 100,000
+- 100,000 inlucded in the sub-study
+- Can infer movement with longitudinal follow-up
 
+<!-- Do you move meme -->
 
+## Data Gathered
 
+- Tri-axial Axtivity 100Hz over 7 days
+- Started at 10AM and ended at 10PM
+- Data measured in milli-g (1$g$ = 9.80665 $\frac{m}{s^2}$)
+  - not counts or steps as other devices
 
+# The devil is (or can be) in the inclusion criteria
+  
+  
 ## UK Biobank Data
 
 ```{r, out.width="70%", fig.align="center"}
@@ -35,183 +45,207 @@ knitr::include_graphics("images/exclusion_criteria.png")
 ```
 
 
-## Accelerometry Available
+## Demographics: Lots of Non-Response
 
-- Axtivity CWA format (Highest resolution, 30hz)
-  - very large for 100K subjects
+```{r}
+df = read_csv("summary/accel_stratified_summary_stats.csv", na = "NA")
+df = df[c(1:4),]
+df =  as.data.frame(df)
+df[2, 2:5] = gsub("[.](\\d)\\d", ".\\1", df[2,2:5])
+rows = which(df[, 1, drop = TRUE] %in% c("Normal", "Underweight", 
+                     "Overweight", "Obese",  "Good", 
+                     "Poor", "Fair", "Excellent", 
+                     "Never", "Former", "Current"))
+colnames(df)[1] = ""
+knitr::kable(df) %>% 
+  kable_styling("striped") %>%
+  add_indent(rows)
+```
+
+**Many people DIED before being able to be asked**
+
+## Assessment to Accelerometry can be a WHILE
+
+```{r, out.width="100%", fig.align="center"}
+knitr::include_graphics("images/time_diff.png")
+```
+
+
+
+## Responders are Healthier (Self-Reported)
+
+```{r}
+df = read_csv("summary/accel_stratified_summary_stats.csv", na = "NA")
+df = df[c(1:3, 14:18),]
+df[ 5:8, ] = df[c(8, 5, 7, 6), ]
+df = df[4:8,]
+df =  as.data.frame(df)
+rows = which(df[, 1, drop = TRUE] %in% c("Normal", "Underweight", 
+                     "Overweight", "Obese",  "Good", 
+                     "Poor", "Fair", "Excellent", 
+                     "Never", "Former", "Current"))
+colnames(df)[1] = ""
+knitr::kable(df) %>% 
+  kable_styling("striped") %>%
+  add_indent(rows) %>% 
+  row_spec(2, bold = TRUE)
+```
+  
+## Accelerometry Data Available
+
+- Data at varyling levels
+  - Axtivity CWA format (Highest resolution, 100Hz)
+    - very large for 100K subjects (Estimate size)
 - 5 second level data
-  - imputation done
-- Summaries - mean activity (in milli-g)
+  - imputation/processing done
+  - averaged into minute-level data
+- Overall statistics (mean/median): overall, daily, hourly, day of week
+  - removed "non-wear" periods
+  
+## Accelerometry Data Available
 
+- Data at varyling levels
+  - Axtivity CWA format (Highest resolution, 100Hz)
+    - very large for 100K subjects
+- **5 second level data**
+  - *imputation/processing done*
+  - **averaged into minute-level data**
+- Overall statistics (mean/median): overall, daily, hourly, day of week
+  - removed "non-wear" periods  
+  
 
+## Processing done (not by me)
 
+Auto-calibration [@van2014autocalibration]
 
+- 10$s$ window all axes SD $< 13.0$ m$g$.
+- fit a unit gravity sphere using OLS.
+- If 3 axes had values outside a $\pm 300$m$g$ range - use calibration coefficient from that person
+- if not use next peron's accelerometer record from the same device
 
+<!-- Show some of the things about device specific measures -->
+<!-- - no large signs of bias -->
+<!-- - plan on doing matching -->
+
+# Lesson #1: If magnitude is important, need calibration ("batch effect" correction)
+
+<!-- Let me get Some of that data meme -->
+
+## Processing done (not by me)
+
+- recording errors and 'interrupts' flagged (plug in accelerometer)
+- $\pm8g$ flagged
+- Resampled to 100 Hz (interrupts > 5 seconds set to missing)
+- Euclidean norm, fourth order Butterworth low pass filter (f = 20Hz). 
+- Subtract $1g$, negative values set to $0$
+
+@doherty2017large
+
+# At least they have software to do this! (Written in LANGUAGE?)
+<!-- PIC HERE -->
 
 ## Goal of analysis
 
-Explore the data
-Reproduce findings
+- Explore the data 
+- Get similar findings to some [@doherty2017large] analysis
+- Assess "bias" in different devices (see if autocalibration is working)
 
-https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0169649
-
-## UK Biobank Data
 
 ```{r, out.width="70%", fig.align="center"}
 knitr::include_graphics("images/plos_age_plot.png")
 ```
 
-Doherty, Aiden, et al. "Large scale population assessment of physical activity using wrist worn accelerometers: The UK Biobank Study." PloS one 12.2 (2017): e0169649.
+## How do people typically move? (First plot)
+
+- Average all data - regardless of mulitple visits per person
+
+```{r, eval = FALSE, out.width="70%", fig.align="center"}
+knitr::include_graphics("images/overall_image.png")
+```
 
 
-# My opinion: ggplotly reinforces <br> ggplot2 > base <br> <img src="images/ig_screaming.gif" style="width: 60%; display: inline; margin: auto;">
+## How do people typically move? (First plot)
+<!-- PUT BOX AROUND WEIRD AREAS -->
+- Average all data - regardless of mulitple visits per person
 
-## Leo Collado Torres: shinycsv and eQTL browsing
+```{r, eval = FALSE, out.width="70%", fig.align="center"}
+knitr::include_graphics("images/overall_image.png")
+```
 
-<div class="container"> 
-   <div class="left-half" style="font-size: 28pt;">
+1.  Run full - show weird shit
+2.  Run only 95% data - show how some goes away
+  - say maybe solved
+3.  Run by day - show all 7 and the weird things
+4.  Show how threshold throws out day 0 and 7 (probably good thing) - peak problem
+5.  Show the jumps still
+6.  Well maybe it's the mean - just use the median - should fix it - nope
+7.  Show 1-2 raw data (Need this)
 
-- Interactive Graphics are good, but have some drawbacks
-- Re-use other tools 
-- Make it fast and simple
-- Iterative 
-- Minimize user options: make a decision 
-- Make interactive beer contests
+## How do people typically move? 
 
-</div>
-   <div class="right-half" style="font-size: 20pt;">
-<img src="images/ig_yeah.jpg" style="width: 70%; display: inline; margin: auto;">
-<img src="images/ig_decide.jpg" style="width: 40%; display: inline; margin: auto;">
-</div>
-</div>
+- Only keep when 95% (1368 minutes) are not missing
 
-## Yesteryears in R: PDF with multiple images
+```{r, eval = FALSE, out.width="70%", fig.align="center"}
+knitr::include_graphics("images/overall_subgood_image.png")
+```
 
-<img src="images/ig_pdf.jpg" style="width: 60%; display: block; margin: auto;">
+# Maybe Lesson #2: Keep only full days
 
+## Not so fast, let's look day by day
 
-## Sean Kross: p5
+- Take Day 0 - 7, day 0 is when they started wearing it
+  - this is what we saw in the data though it should be 0-6
+- Calculate statistic over all participants
+  - the same minute across people
+  - each day separately
+  
 
-<div class="container"> 
-   <div class="left-half" style="font-size: 28pt;">
+## Randomly Sample 2000 people
 
-- Use htmlwidgets: 10 lines of JS code
-  - enough JS to be dangerous?
-- Models are hard
-- Maybe use shape people vs. people people
-- Formula syntax to pass JS-type variables
+```{r, out.width="70%", fig.align="center"}
+knitr::include_graphics("images/unclustered_log10_heatmap_no_imputed_threshold_plot.png")
+```
 
-</div>
-   <div class="right-half" style="font-size: 20pt;">
+## Maybe it's a "few bad apples"
 
-<!-- <img src="images/ig_setit.png" style="width: 100%; display: inline; margin: auto;"> -->
-<img src="images/ig_easy.jpg" style="width: 100%; display: inline; margin: auto;">
-
-
-</div>
-</div>
-
-
-
-## Interactive Graphics are Hard
-
-<img src="images/ig_hard.jpg" style="width: 60%; display: block; margin: auto;">
-
-## Interactive Graphics <s>are</s> were Hard
-
-<div class="container" style="font-size: 28pt;"> 
-<div class="left-half">
-
-- ggobi/xgobi
-- plotly (and `ggplotly`)
-- htmlwidgets
-- Shiny
-- manipulate 
-- ggvis/vegalite
-- rCharts
-- leaflet
-
-</div>
-<div class="right-half">
-
-- rbokeh: http://hafen.github.io/rbokeh/
-- trelliscope: http://deltarho.org/docs-trelliscope/
-- **crosstalk:** http://rstudio.github.io/crosstalk/
-- googleVis
-- p5*
-
-</div>
+```{r, out.width="70%", fig.align="center"}
+knitr::include_graphics("images/plos_age_plot.png")
+```
 
 
-## But I don't use R!
-
-<div class="container" style="font-size: 28pt;">
-
-- Python has a lot of implementations similar to what we've discussed
-- Dash: Interactive, reactive web apps in pure python (from Plotly)
-- Stata: stata2leaflet, stata2d3, gchart (never have used them)
-- SAS - ActiveX?  - not easy to disseminate
-- Tableau
-
-</div>
-
-# Interactive Graphics are <br> "Catching up to the 90s" <br> (Di Cook)
-
-# Use of interactive graphics is increasing <br> (I think)
-
-## Custom Interactive Graphics are Still Hard
-
-<!-- class="left-half" -->
-<div  style="font-size: 28pt;">
-
-- GGobi is the standard to ascribe to in many ways (I haven't used extensively)
-- Implementing many of these widgets for HTML would be good
-    - \*cough\* PhD Thesis \*cough\*
-- Need to teach these tools
-
-</div>
-
-## Some rules for using interactive graphics
-
-<div class="container" style="font-size: 28pt;">
-
-1. Make it simple 
-2. Give few choices, if any
-3. Ask for specific feedback
-4. Make it fast, use tools available even if clunky.  
-    - I tend to use Shiny to prototype
-    - then ask people better than JS to help
-
-</div>
-
-# Shiny Apps are good <br> call them something else <br> "Interactive Website"?  
-
-## Collaboration and interactive graphics
-
-<div class="container" style="font-size: 26pt;">
-
-1. Shiny is good, but can't be emailed, need server (DO)
-2. HTML and JavaScript is backended for most (or all) of what we discussed
-3. Collaborators still want to know "how can I put in my presentation"
-    - GH Pages - free hosting! Also, standalone HTML
-4. Make it, then ask if it's OK to take some time to do it
-
-</div>
 
 
-# Publishing Interactive Graphics in Papers
+# We're ready for analysis right?
 
-# Faculty Office Hour
+- Nope!  Need to estimate "wear time" 
 
-## Questions to the speakers
+<!-- A ghost wore it meme - like who's wearing that sheet? -->
+<!--  Maybe set it and forget it? -->
 
-<br>
-<div class="container" style="font-size: 35pt;">
+## Wear time
 
-1.  How did you learn these skills (class vs. on own)?
-2.  Where does someone start?
-3.  How do you convince collaborators of the investment in time/energy/adapting HTML?
+"We removed non-wear time, defined as consecutive stationary episodes lasting for at least 60 minutes where all three axes had a standard deviation of less than 13.0 m$g$"
 
-</div>
+@doherty2017large
 
+<!-- OK meme?  Maybe set it and forget it? -->
 
+## Why 13m$g$?
+
+"Here, 13 m$g$ was selected just above the empirically derived baseline (noise) standard deviation of 10 m$g$ to retain only nonmovement periods." @van2014autocalibration
+
+<!-- African kid skeptical meme with  -->
+
+## Takehome Messages
+
+1. Start off smaller than 100K people
+2. Inspect the raw(ish) data
+3. Autocalibration seems to work well on gross features (with 100K people)
+4. Artifacts still seem present in the data
+5. **Back to the 100Hz data** we go!
+
+## Next data installment 
+
+"We invited some participants to wear an activity monitor for a week, four times a year. ... finished in early 2019."
+
+<!-- NO MORE DATA -->

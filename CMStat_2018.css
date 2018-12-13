@@ -24,8 +24,11 @@ slides > slide.nb2:after {
 table.rmdtable tr, table.rmdtable td {
     padding-top: 0em;
     padding-bottom: 0em;
-    font-size: 24px;
+    font-size: 14px;
+}
 
+.verysmall .table{
+  font-size: 14px;
 }
 
 #botval { position: relative; }

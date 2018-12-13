@@ -4,18 +4,20 @@ library(dplyr)
 library(readr)
 library(ggplot2)
 library(purrr)
+library(lubridate)
 library(here)
 library(tidyr)
 # set to
 bb_id = "2586235"
 
+# need to rerun with correct calculation of n
 id_file = here("ids_with_good_qa.txt")
 
 biobank_ids = readLines(id_file)
 biobank_ids = as.integer(biobank_ids)
 
 rerun = TRUE
-# drop_bad = TRUE
+drop_bad = FALSE
 
 for (drop_bad in c(FALSE, TRUE)) {
   
@@ -75,6 +77,7 @@ for (drop_bad in c(FALSE, TRUE)) {
   if (!file.exists(outfile) | rerun) {
     fdf = map_df(full_data, function(x) {
       res = read_rds(x)
+      stopifnot("n" %in% colnames(res))
       res = res %>% 
         gather(measure, value,
                q0,q25,q50,q75,q100,sd,mean,min,max)  
@@ -107,8 +110,9 @@ for (drop_bad in c(FALSE, TRUE)) {
     ss = map(sum_files, function(x) {
       print(x)
       res = read_rds(x)
+      stopifnot("n" %in% colnames(res))
       res = gather(res, measure, value,
-                   q0,q25,q50,q75,q100,sd,mean,min,max)
+                   q0,q25,q50,q75,q100,sd,mean,min,max,n)
       # res = res %>% 
       #   filter(!measure %in% c("q0", "q100"))      
       # res = gather(res,
