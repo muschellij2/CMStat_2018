@@ -26,7 +26,7 @@ options("kableExtra.html.bsTable" = TRUE)
 <div style="font-size:40pt" id="left_col">
 
 
-A lot of work with <br>
+Work done with <br>
 [Andrew Leroux](https://www.jhsph.edu/departments/biostatistics/directory/students/phd.html)
 <br>PhD Student at Johns Hopkins 
 </div>
