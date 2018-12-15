@@ -9,6 +9,7 @@ library(here)
 library(tidyr)
 library(scales)
 library(matrixStats)
+library(biobankr)
 # set to
 
 id_file = here("ids_with_good_qa.txt")
@@ -141,7 +142,11 @@ all_accel = all_accel %>%
   mutate(calib = paste0("Calibrated on ", 
                         ifelse(data_quality_calibrated_on_own_data == "Yes", 
                                "Own Data",
-                               "Someone Else's Data")))
+                               "Someone Else's Data")),
+         calib_short = ifelse(data_quality_calibrated_on_own_data == "Yes", 
+                "Own Data",
+                "Someone Else's Data"))
+
 gcalib = all_accel %>% 
   ggplot() + 
   ylab("Number of Subjects")  +
@@ -153,6 +158,7 @@ png(pngname, height = 5, width = 10, res = 300, units = "in")
 
 calib_avg = gcalib + 
   geom_histogram(aes(x = nowear_time_bias_adjusted_average_acceleration)) +
+  theme(text = element_text(size = 20))  +
   xlab("Mean Acceleration (milli-g) while 'Wearing Device'")
 print(calib_avg)
 dev.off()
@@ -160,15 +166,29 @@ pngname = here("images", "nowear_max_by_calibration.png")
 png(pngname, height = 5, width = 10, res = 300, units = "in")
 calib_max = gcalib + 
   geom_histogram(aes(x = nowear_time_bias_adjusted_acceleration_maximum)) +
+  theme(text = element_text(size = 20))  +
   xlab("Max Acceleration (milli-g) while 'Wearing Device'")  
 print(calib_max)
 dev.off()
 
+gcalib = all_accel %>% 
+  ggplot() + 
+  ylab("Density")
 
+pngname = here("images", "nowear_average_by_calibration_together.png")
+png(pngname, height = 5, width = 10, res = 300, units = "in")
+calib_avg = gcalib + 
+  geom_density(
+    aes(fill = calib_short, 
+        x = nowear_time_bias_adjusted_average_acceleration),
+    position = "identity", alpha = 0.5) +
+  transparent_legend + 
+  theme(legend.position = c(0.65, 0.45),
+        legend.direction = "vertical")  + 
+  theme(text = element_text(size = 24))  +
+  xlab("Mean Acceleration (milli-g)") + 
+  guides(fill = guide_legend(title = "Calibrated on:")) +
+  geom_vline(aes(xintercept = 75), size = 2)
+print(calib_avg)
+dev.off()
 
-table(all_accel$potentially_bad, all_accel$data_quality_calibrated_on_own_data)
-
-
-table(all_accel$data_quality_calibrated_on_own_data)
-
-gmax

@@ -20,6 +20,14 @@ bad_fdf %>%
   group_by(sub_good) %>% 
   summarize(max(value))
 
+outfile = here(paste0(app, "long_overall_data.rds"))
+bad_odf = read_rds(outfile)
+bad_odf = as_data_frame(bad_odf)
+bad_odf %>% 
+  filter(measure == "max") %>% 
+  group_by(sub_good) %>% 
+  summarize(max(value))
+
 outfile = here(paste0(app, "long_full_data.rds"))
 bad_long = read_rds(outfile)
 bad_maxs = lapply(bad_long, function(xx) {
@@ -47,6 +55,17 @@ fdf %>%
 fdf = full_join(fdf, bad_fdf)
 outfile = here("all_long_summary_data.rds")
 write_rds(fdf, outfile, compress = "xz")
+
+outfile = here(paste0(app, "long_overall_data.rds"))
+odf = read_rds(outfile)
+odf = as_data_frame(odf)
+odf %>% 
+  filter(measure == "max") %>% 
+  group_by(sub_good) %>% 
+  summarize(max(value))
+odf = full_join(odf, bad_odf)
+outfile = here("all_long_overall_data.rds")
+write_rds(odf, outfile, compress = "xz")
 
 outfile = here(paste0(app, "long_full_data.rds"))
 long = read_rds(outfile)

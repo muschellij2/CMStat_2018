@@ -4,3 +4,5 @@
 .Ruserdata
 *.rds
 literature/*.pdf
+*.cwa
+*.cwa.gz

@@ -36,9 +36,15 @@ for (drop_bad in c(FALSE, TRUE)) {
   }
   sum_files = sum_files[ keep ]
   
+  ofiles = sub("summary", "overall", sum_files)
+  ofiles = ofiles[ file.exists(ofiles)]
+  
+  
   full_data = c("summary_1440_goodQA.rds",
                 "summary_1368_1440_goodQA.rds")
   full_data = c(paste0("nobad_", full_data), full_data)
+  
+  odata = sub("summary", "overall", full_data)
   if (drop_bad) {
     keep = grepl("nobad", full_data)
   } else {
@@ -46,8 +52,17 @@ for (drop_bad in c(FALSE, TRUE)) {
   }
   full_data = full_data[ keep ]
   
+  if (drop_bad) {
+    keep = grepl("nobad", odata)
+  } else {
+    keep = !grepl("nobad", odata)
+  }
+  odata = odata[ keep ]
+  
   
   sum_files = sum_files[ !basename(sum_files) %in% full_data]
+  ofiles = ofiles[ !basename(ofiles) %in% odata]
+  
   combined_file = c("threshold_summary_1440_goodQA.rds")
   if (drop_bad) {
     combined_file = paste0("nobad_", combined_file)
@@ -58,6 +73,11 @@ for (drop_bad in c(FALSE, TRUE)) {
   vars = sub("nobad_", "", basename(sum_files))
   vars = sub("_summary.*", "", vars)
   names(sum_files) = vars
+
+  ovars = sub("nobad_", "", basename(ofiles))
+  ovars = sub("_overall.*", "", ovars)
+  names(ofiles) = ovars
+  
   combined = map_df(combined_file, function(x) {
     res = read_rds(x)
     res
@@ -71,6 +91,8 @@ for (drop_bad in c(FALSE, TRUE)) {
   
   
   names(full_data) = full_data
+  names(odata) = odata
+  
   x = full_data[1]
   outfile = here(paste0(app, "long_summary_data.rds"))
   
@@ -103,78 +125,125 @@ for (drop_bad in c(FALSE, TRUE)) {
     fdf = read_rds(outfile)
   }
   
-  x = sum_files[1]
+  outfile = here(paste0(app, "long_overall_data.rds"))
   
-  outfile = here(paste0(app, "long_full_data.rds"))
   if (!file.exists(outfile) | rerun) {
-    ss = map(sum_files, function(x) {
-      print(x)
+    odf = map_df(odata, function(x) {
       res = read_rds(x)
       stopifnot("n" %in% colnames(res))
-      res = gather(res, measure, value,
-                   q0,q25,q50,q75,q100,sd,mean,min,max,n)
-      # res = res %>% 
-      #   filter(!measure %in% c("q0", "q100"))      
-      # res = gather(res,
-      #              variable, cat,
-      #              -day, -time, -measure, -value)
-      cn = colnames(res)
-      if (grepl("age_accel", x)) {
-        cn[grepl("age_cat", cn)] =  "age_accel_cat"
-      }
-      if (grepl("age_assess", x)) {
-        cn[grepl("age_cat", cn)] = "age_assess_cat"
-      }
-      colnames(res) = cn
-      
       res = res %>% 
-        mutate(sub_good = grepl("1368", x),
-               nobad = grepl("nobad", x)  
-        )
-      res
-    })
-    uvars = unique(vars)
-    long = vector(mode = "list", length = length(uvars))
-    names(long) = uvars
-    for (ivar in uvars) {
-      xx = ss[ names(ss) == ivar]
-      cn = colnames(xx[[1]])
-      cn = colnames(xx)
-      res = bind_rows(xx)
-      res = as_data_frame(res)
-      long[[ivar]] = res
-    }
-    
-    
-    long = long %>% 
-      map(function(x) {
-        x %>% 
-          mutate_at(.vars = vars(day, time, value), as.numeric)
-      })
-    
-    long = long %>% 
-      map(function(x) {
-        x %>% 
-          arrange(day, time, measure, value)
-      })
-    
-    long = long %>% 
-      map(function(x) {
-        x = x %>% 
-          mutate(time_of_day = biobankr::min_to_time(time))
-        tz(x$time_of_day) = "UTC"
-        x
-      })
-    long = long %>% 
-      map(function(x) {
-        x %>% 
-          filter(is.finite(value))
-      })
-    
-    write_rds(long, outfile,
+        gather(measure, value,
+               q0,q25,q50,q75,q100,sd,mean,min,max)  
+      res = res %>% 
+        filter(is.finite(value))
+      return(res)
+    }, .id = "file")
+    odf = odf %>% 
+      mutate(sub_good = grepl("1368", file))
+    odf$file = NULL
+    odf = odf %>% 
+      mutate_at(.vars = vars(time, value), as.numeric)
+    odf = odf %>% 
+      arrange(time, measure, sub_good, value)
+    odf = odf %>% 
+      mutate(time_of_day = biobankr::min_to_time(time),
+             nobad = drop_bad)
+    tz(odf$time_of_day) = "UTC"    
+    odf = as_data_frame(odf)
+    write_rds(odf, outfile,
               compress = "xz")
-  } else {
-    long = read_rds(outfile)
+  } else { 
+    odf = read_rds(outfile)
+  }
+  
+  
+  x = sum_files[1]
+  
+  L = list(
+    summary = sum_files,
+    overall = ofiles
+  )
+  type = "summary"
+  for (type in names(L)) {
+    run_files = L[[type]]
+    fname = paste0(app, "long", 
+                   ifelse(type != "summary", type, ""),
+                   "_full_data.rds")
+    outfile = here(fname)
+    if (!file.exists(outfile) | rerun) {
+      ss = map(run_files, function(x) {
+        print(x)
+        res = read_rds(x)
+        stopifnot("n" %in% colnames(res))
+        res = gather(res, measure, value,
+                     q0,q25,q50,q75,q100,sd,mean,min,max,n)
+        # res = res %>% 
+        #   filter(!measure %in% c("q0", "q100"))      
+        # res = gather(res,
+        #              variable, cat,
+        #              -day, -time, -measure, -value)
+        cn = colnames(res)
+        if (grepl("age_accel", x)) {
+          cn[grepl("age_cat", cn)] =  "age_accel_cat"
+        }
+        if (grepl("age_assess", x)) {
+          cn[grepl("age_cat", cn)] = "age_assess_cat"
+        }
+        colnames(res) = cn
+        
+        res = res %>% 
+          mutate(sub_good = grepl("1368", x),
+                 nobad = grepl("nobad", x)  
+          )
+        if (type == "overall") {
+          res$day = NA_real_
+        }
+        res
+      })
+      uvars = unique(vars)
+      uvars = intersect(uvars, names(ss))
+      long = vector(mode = "list", length = length(uvars))
+      names(long) = uvars
+      for (ivar in uvars) {
+        xx = ss[ names(ss) == ivar]
+        cn = colnames(xx[[1]])
+        cn = colnames(xx)
+        res = bind_rows(xx)
+        res = as_data_frame(res)
+        long[[ivar]] = res
+      }
+      
+      
+      long = long %>% 
+        map(function(x) {
+          x %>% 
+            mutate_at(.vars = vars(day, time, value), as.numeric)
+        })
+      
+      long = long %>% 
+        map(function(x) {
+          x %>% 
+            arrange(day, time, measure, value)
+        })
+      
+      long = long %>% 
+        map(function(x) {
+          x = x %>% 
+            mutate(time_of_day = biobankr::min_to_time(time))
+          tz(x$time_of_day) = "UTC"
+          x
+        })
+      long = long %>% 
+        map(function(x) {
+          x %>% 
+            filter(is.finite(value))
+        })
+      
+      write_rds(long, outfile,
+                compress = "xz")
+    } else {
+      long = read_rds(outfile)
+    }
   }
   
 }

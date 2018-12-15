@@ -7,6 +7,7 @@ output:
   ioslides_presentation:
     css: CMStat_2018.css
     widescreen: true
+bibliography: refs.bib
 ---
 
 ```{r setup, include=FALSE}
@@ -19,31 +20,42 @@ library(kableExtra)
 options("kableExtra.html.bsTable" = TRUE)
 ```
 
+## Disclaimer (Acknowledgements?)
+
+<br><br>
+<div style="font-size:40pt" id="left_col">
+
+
+A lot of work with <br>
+[Andrew Leroux](https://www.jhsph.edu/departments/biostatistics/directory/students/phd.html)
+<br>PhD Student at Johns Hopkins 
+</div>
+```{r, out.width="20%", fig.align="right"}
+knitr::include_graphics("images/andrew-leroux-phd.jpg")
+```
 
 ## UK Biobank Data
 
-- 500,000 participants
-- 100,000 inlucded in the sub-study
-- Can infer movement with longitudinal follow-up
+<div style="font-size:30pt">
 
-<!-- Do you move meme -->
+- Overall 500,000 participants (UK), ≈ 100,000 included in the sub-study
 
-## Data Gathered
+In this presentation: 
 
-- Tri-axial Axtivity 100Hz over 7 days
-- Started at 10AM and ended at 10PM
-- Data measured in milli-g (1$g$ = 9.80665 $\frac{m}{s^2}$)
-  - not counts or steps as other devices
+- Explore the data 
+- Assess "bias" in different devices (see if "autocalibration" is working)
+- Also discuss inclusion criteria "bias"
+- Get similar findings [@doherty2017large] analysis
 
-# The devil is (or can be) in the inclusion criteria
-  
-  
-## UK Biobank Data
+</div>
+
+## Where do 100K come from?
 
 ```{r, out.width="70%", fig.align="center"}
 knitr::include_graphics("images/exclusion_criteria.png")
 ```
 
+<!-- Do you move meme -->
 
 ## Demographics: Lots of Non-Response
 
@@ -59,17 +71,19 @@ rows = which(df[, 1, drop = TRUE] %in% c("Normal", "Underweight",
 colnames(df)[1] = ""
 knitr::kable(df) %>% 
   kable_styling("striped") %>%
-  add_indent(rows)
+  add_indent(rows) %>% 
+  column_spec(4:5, bold = TRUE)
 ```
 
+<div style="font-size: 30pt">
 **Many people DIED before being able to be asked**
+</div>
 
 ## Assessment to Accelerometry can be a WHILE
 
 ```{r, out.width="100%", fig.align="center"}
 knitr::include_graphics("images/time_diff.png")
 ```
-
 
 
 ## Responders are Healthier (Self-Reported)
@@ -90,123 +104,226 @@ knitr::kable(df) %>%
   add_indent(rows) %>% 
   row_spec(2, bold = TRUE)
 ```
-  
+
+# Lesson #1: The devil is<br>in the inclusion criteria<br>(or can be)
+
+## Data Gathered
+
+- Tri-axial Axtivity 100Hz over 7 days
+- Started at 10AM and ended at 10PM (spoiler: will be important)
+- Data measured in milli-g (1$g$ = 9.80665 $\frac{m}{s^2}$)
+  - not counts or steps as other devices
+
+```{r, out.width="28%", fig.align="center"}
+knitr::include_graphics("images/triax.jpg")
+```
+
 ## Accelerometry Data Available
 
+<div style="font-size:20pt" id="left_col">
+
 - Data at varyling levels
-  - Axtivity CWA format (Highest resolution, 100Hz)
-    - very large for 100K subjects (Estimate size)
-- 5 second level data
-  - imputation/processing done
-  - averaged into minute-level data
+  - Axtivity CWA format (Highest resolution, 100Hz) (200Mb per user)
+    - very large for 100K subjects (20Tb)
+- 5 second level data 
+  - UKBB imputation/processing done
+  - averaged into 1440 minute-level data
 - Overall statistics (mean/median): overall, daily, hourly, day of week
   - removed "non-wear" periods
-  
+</div>
+
+<div id="right_col">
+
+```{r, out.width="110%", fig.align="center"}
+knitr::include_graphics("images/varying_levels.png")
+```
+</div>
+
+
 ## Accelerometry Data Available
 
+<div style="font-size:20pt" id="left_col">
 - Data at varyling levels
-  - Axtivity CWA format (Highest resolution, 100Hz)
-    - very large for 100K subjects
-- **5 second level data**
-  - *imputation/processing done*
-  - **averaged into minute-level data**
+  - Axtivity CWA format (Highest resolution, 100Hz) (200Mb per user)
+    - very large for 100K subjects (20Tb)
+- **5 second level data **
+  - **UKBB imputation/processing done**
+  - **averaged into 1440 minute-level data**
 - Overall statistics (mean/median): overall, daily, hourly, day of week
-  - removed "non-wear" periods  
-  
+  - removed "non-wear" periods
+</div>
 
-## Processing done (not by me)
+<div id="right_col">
 
-Auto-calibration [@van2014autocalibration]
+```{r, out.width="110%", fig.align="center"}
+knitr::include_graphics("images/varying_levels.png")
+```
+</div>
 
-- 10$s$ window all axes SD $< 13.0$ m$g$.
-- fit a unit gravity sphere using OLS.
-- If 3 axes had values outside a $\pm 300$m$g$ range - use calibration coefficient from that person
-- if not use next peron's accelerometer record from the same device
+
+
+## UKBB Processing: Auto-calibration 
+<div id = "left_col2">
+[@van2014autocalibration]
+
+1. Use 10$s$ window all axes SD $< 13.0$ m$g$.
+2. Fit a unit gravity sphere using OLS.
+3. If 3 axes had values outside a $\pm 300$m$g$ range - use calibration coefficient
+4. If not, use **next person's** calibration coefficient from the same device
+
+</div>
+<br>
+
+<div id="right_col2">
+```{r, out.width="30%", fig.align="center"}
+knitr::include_graphics("images/where_data.jpg")
+```
+
+```{r, out.width="90%", fig.align="center"}
+knitr::include_graphics("images/nowear_average_by_calibration_together.png")
+```
+
+</div>
+
+## Auto-calibration seems to "work"
+
+- Within-person average, within-device average (one point per device)
+- Plotted against # of wears per device($σ$ should decrease with $\sqrt{n}$)
+
+```{r, out.width="45%", fig.align="center"}
+knitr::include_graphics("images/device_data/average_average_acceleration_by_device.jpeg")
+```
+
+## Doesn't work for all cases
+
+```{r, out.width="100%", fig.align="center"}
+knitr::include_graphics("images/2586235_daily_plot.png")
+```
+
+## Doesn't work for all cases
+
+```{r, out.width="100%", fig.align="center"}
+knitr::include_graphics("images/2586235_daily_plot_free.png")
+```
+
+## Doesn't work for all cases
+
+```{r, out.width="100%", fig.align="center"}
+knitr::include_graphics("images/3462861_daily_plot.png")
+```
 
 <!-- Show some of the things about device specific measures -->
 <!-- - no large signs of bias -->
 <!-- - plan on doing matching -->
 
-# Lesson #1: If magnitude is important, need calibration ("batch effect" correction)
+# Lesson #2: If magnitude is important, need calibration <br>("batch effect" correction),<br> but may not be perfect
 
 <!-- Let me get Some of that data meme -->
 
-## Processing done (not by me)
+## UKBB Processing: @doherty2017large
 
-- recording errors and 'interrupts' flagged (plug in accelerometer)
+
+- Recording errors and 'interrupts' flagged (plug in accelerometer to computer)
 - $\pm8g$ flagged
 - Resampled to 100 Hz (interrupts > 5 seconds set to missing)
 - Euclidean norm, fourth order Butterworth low pass filter (f = 20Hz). 
 - Subtract $1g$, negative values set to $0$
 
-@doherty2017large
+```{r, out.width="75%", fig.align="center"}
+knitr::include_graphics("images/accMethodsOverview.png")
+```
 
-# At least they have software to do this! (Written in LANGUAGE?)
+```{r, out.width="40%", fig.align="center", eval = FALSE}
+knitr::include_graphics("images/grandma_kickbox.jpg")
+```
+
+# They have software (Python) on [GitHub]( https://github.com/activityMonitoring/biobankAccelerometerAnalysis)
 <!-- PIC HERE -->
 
-## Goal of analysis
-
-- Explore the data 
-- Get similar findings to some [@doherty2017large] analysis
-- Assess "bias" in different devices (see if autocalibration is working)
-
+## One result from [@doherty2017large] analysis
 
 ```{r, out.width="70%", fig.align="center"}
 knitr::include_graphics("images/plos_age_plot.png")
 ```
-
-## How do people typically move? (First plot)
-
-- Average all data - regardless of mulitple visits per person
-
-```{r, eval = FALSE, out.width="70%", fig.align="center"}
-knitr::include_graphics("images/overall_image.png")
-```
-
-
-## How do people typically move? (First plot)
-<!-- PUT BOX AROUND WEIRD AREAS -->
-- Average all data - regardless of mulitple visits per person
-
-```{r, eval = FALSE, out.width="70%", fig.align="center"}
-knitr::include_graphics("images/overall_image.png")
-```
-
-1.  Run full - show weird shit
-2.  Run only 95% data - show how some goes away
-  - say maybe solved
-3.  Run by day - show all 7 and the weird things
-4.  Show how threshold throws out day 0 and 7 (probably good thing) - peak problem
-5.  Show the jumps still
-6.  Well maybe it's the mean - just use the median - should fix it - nope
-7.  Show 1-2 raw data (Need this)
 
 ## How do people typically move? 
 
-- Only keep when 95% (1368 minutes) are not missing
+- Average over minute - regardless of mulitple visits per person
 
-```{r, eval = FALSE, out.width="70%", fig.align="center"}
-knitr::include_graphics("images/overall_subgood_image.png")
+```{r, out.width="90%", fig.align="center"}
+knitr::include_graphics("images/overall_plot.png")
 ```
 
-# Maybe Lesson #2: Keep only full days
+## How do people typically move? 
+
+- Average over minute with days > 95% non-missing data
+
+```{r, out.width="90%", fig.align="center"}
+knitr::include_graphics("images/overall_plot_good.png")
+```
+
+# (Maybe) Lesson #3: Keep only "full" days
 
 ## Not so fast, let's look day by day
 
-- Take Day 0 - 7, day 0 is when they started wearing it
-  - this is what we saw in the data though it should be 0-6
-- Calculate statistic over all participants
-  - the same minute across people
-  - each day separately
-  
+- Average over minute for days separately, one row per subject
 
-## Randomly Sample 2000 people
+```{r, out.width="90%", fig.align="center"}
+knitr::include_graphics("images/daily_plot.png")
+```
 
-```{r, out.width="70%", fig.align="center"}
+## Removing Day 7
+
+- Average over minute for days 0 - 6
+
+```{r, out.width="90%", fig.align="center"}
+knitr::include_graphics("images/Mean_overall_noday7_plot.png")
+```
+
+# Lesson #3: Explore days before averaging across in individual?
+
+## Well use the MEDIAN then!
+
+```{r, out.width="100%", fig.align="center"}
+knitr::include_graphics("images/overall_noday7_plot.png")
+```
+
+
+## Maybe it's a "few bad apples"
+
+Heatmap of 2000 randomly sampled people
+
+```{r, out.width="50%", fig.align="center"}
 knitr::include_graphics("images/unclustered_log10_heatmap_no_imputed_threshold_plot.png")
 ```
 
-## Maybe it's a "few bad apples"
+## Age at Assessment Plot
+
+```{r, out.width="100%", fig.align="center"}
+knitr::include_graphics("images/age_assessment_daily_plot_1_6.png")
+```
+
+## One result from [@doherty2017large] analysis
+
+- Look at age range
+
+```{r, out.width="70%", fig.align="center"}
+knitr::include_graphics("images/plos_age_plot.png")
+```
+
+## Age **at Acceleration** Plot
+
+```{r, out.width="100%", fig.align="center"}
+knitr::include_graphics("images/age_accel_daily_plot_1_6.png")
+```
+
+## Age **at Acceleration** Plot - Remove 38-44 y/0
+
+```{r, out.width="100%", fig.align="center"}
+knitr::include_graphics("images/age_accel_daily_plot_1_6_drop_age.png")
+```
+
+## One result from [@doherty2017large] analysis
 
 ```{r, out.width="70%", fig.align="center"}
 knitr::include_graphics("images/plos_age_plot.png")
@@ -214,13 +331,36 @@ knitr::include_graphics("images/plos_age_plot.png")
 
 
 
+## Takehome Messages
 
-# We're ready for analysis right?
+1. Start off smaller than 100K people
+2. Inspect the raw(ish) data
+3. Processing highly affects results
+  - Autocalibration seems to work well on gross features (with 100K people)
+  - Artifacts still seem present in the data
+5. Inclusion criteria matters (esp. for inference)
+7. **Back to the 100Hz data** we go!
+
+## Next data installment 
+
+"We invited some participants to wear an activity monitor for a week, four times a year. ... finished in early 2019."
+
+```{r, out.width="70%", fig.align="center"}
+knitr::include_graphics("images/followup.jpg")
+```
+
+## References (and Thanks)
+
+
+
+## We're ready for analysis right?
 
 - Nope!  Need to estimate "wear time" 
 
-<!-- A ghost wore it meme - like who's wearing that sheet? -->
-<!--  Maybe set it and forget it? -->
+```{r, out.width="80%", fig.align="center"}
+knitr::include_graphics("images/it-never-ends.jpg")
+```
+
 
 ## Wear time
 
@@ -234,18 +374,3 @@ knitr::include_graphics("images/plos_age_plot.png")
 
 "Here, 13 m$g$ was selected just above the empirically derived baseline (noise) standard deviation of 10 m$g$ to retain only nonmovement periods." @van2014autocalibration
 
-<!-- African kid skeptical meme with  -->
-
-## Takehome Messages
-
-1. Start off smaller than 100K people
-2. Inspect the raw(ish) data
-3. Autocalibration seems to work well on gross features (with 100K people)
-4. Artifacts still seem present in the data
-5. **Back to the 100Hz data** we go!
-
-## Next data installment 
-
-"We invited some participants to wear an activity monitor for a week, four times a year. ... finished in early 2019."
-
-<!-- NO MORE DATA -->

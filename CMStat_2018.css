@@ -9,7 +9,7 @@
 }
 
 slides > slide.nb2:after {
-  font-size: 12pt;
+  font-size: 16pt;
   content: '';
   position: absolute;
   bottom: 20px;
@@ -88,4 +88,9 @@ table.rmdtable tr, table.rmdtable td {
 
 slides > slide > hgroup + article {
     margin-top: 5px;
+}
+
+
+b, strong {
+  font-weight: 900;
 }
