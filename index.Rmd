@@ -353,24 +353,29 @@ knitr::include_graphics("images/followup.jpg")
 
 
 
-## We're ready for analysis right?
+<!-- ## We're ready for analysis right? -->
 
-- Nope!  Need to estimate "wear time" 
+<!-- - Nope!  Need to estimate "wear time" -->
 
-```{r, out.width="80%", fig.align="center"}
-knitr::include_graphics("images/it-never-ends.jpg")
-```
+<!-- ```{r, out.width="80%", fig.align="center"} -->
+<!-- knitr::include_graphics("images/it-never-ends.jpg") -->
+<!-- ``` -->
 
 
-## Wear time
+<!-- ## Wear time -->
 
-"We removed non-wear time, defined as consecutive stationary episodes lasting for at least 60 minutes where all three axes had a standard deviation of less than 13.0 m$g$"
+<!-- "We removed non-wear time, defined as consecutive stationary episodes lasting for at least 60 minutes where all three axes had a standard deviation of less than 13.0 m$g$" -->
 
-@doherty2017large
+<!-- @doherty2017large -->
+
+
+<!-- ## Why 13m$g$? -->
+
+<!-- "Here, 13 m$g$ was selected just above the empirically derived baseline (noise) standard deviation of 10 m$g$ to retain only nonmovement periods." @van2014autocalibration -->
+
+
+
+
+
 
 <!-- OK meme?  Maybe set it and forget it? -->
-
-## Why 13m$g$?
-
-"Here, 13 m$g$ was selected just above the empirically derived baseline (noise) standard deviation of 10 m$g$ to retain only nonmovement periods." @van2014autocalibration
-
