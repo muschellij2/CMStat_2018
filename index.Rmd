@@ -191,7 +191,7 @@ knitr::include_graphics("images/nowear_average_by_calibration_together.png")
 ## Auto-calibration seems to "work"
 
 - Within-person average, within-device average (one point per device)
-- Plotted against # of wears per device ($σ$ should decrease with $\sqrt{n}$)
+- Plotted against # of wears per device ($\hat{σ}$ should decrease with $\sqrt{n_{wear}}$)
 
 ```{r, out.width="45%", fig.align="center"}
 knitr::include_graphics("images/device_data/average_average_acceleration_by_device.jpeg")
@@ -203,7 +203,7 @@ knitr::include_graphics("images/device_data/average_average_acceleration_by_devi
 knitr::include_graphics("images/2586235_daily_plot.png")
 ```
 
-## Doesn't work for all cases
+## Doesn't work for all cases (scales day-dependent)
 
 ```{r, out.width="100%", fig.align="center"}
 knitr::include_graphics("images/2586235_daily_plot_free.png")
@@ -300,7 +300,7 @@ Heatmap of 2000 randomly sampled people
 knitr::include_graphics("images/unclustered_log10_heatmap_no_imputed_threshold_plot.png")
 ```
 
-## Age at Assessment Plot
+## Using Age at Assessment
 
 ```{r, out.width="100%", fig.align="center"}
 knitr::include_graphics("images/age_assessment_daily_plot_1_6.png")
@@ -314,13 +314,13 @@ knitr::include_graphics("images/age_assessment_daily_plot_1_6.png")
 knitr::include_graphics("images/plos_age_plot.png")
 ```
 
-## Age **at Acceleration** Plot
+## Using Age **at Acceleration** 
 
 ```{r, out.width="100%", fig.align="center"}
 knitr::include_graphics("images/age_accel_daily_plot_1_6.png")
 ```
 
-## Age **at Acceleration** Plot - Remove 38-44 y/0
+## Using Age **at Acceleration** - Remove 38-44 y/o
 
 ```{r, out.width="100%", fig.align="center"}
 knitr::include_graphics("images/age_accel_daily_plot_1_6_drop_age.png")
@@ -331,7 +331,6 @@ knitr::include_graphics("images/age_accel_daily_plot_1_6_drop_age.png")
 ```{r, out.width="70%", fig.align="center"}
 knitr::include_graphics("images/plos_age_plot.png")
 ```
-
 
 
 ## Takehome Messages
