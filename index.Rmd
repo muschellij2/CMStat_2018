@@ -1,8 +1,7 @@
 ---
 title: "My First Exposure to Accelerometer Data was for 100000 People from UK Biobank"
 subtitle: "John Muschelli, \\@StrictlyStat,\n Johns Hopkins University"
-author: "presentation: http://johnmuschelli.com/CMStat_2018"
-date: "source: http://github.com/muschellij2/CMStat_2018"
+author: "presentation: http://johnmuschelli.com/ENAR_2019"
 output:
   ioslides_presentation:
     css: CMStat_2018.css
