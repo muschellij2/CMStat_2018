@@ -61,6 +61,8 @@ knitr::include_graphics("images/exclusion_criteria.png")
 ```{r}
 df = read_csv("summary/accel_stratified_summary_stats.csv", na = "NA")
 df = df[c(1:4),]
+x = as.numeric(df[1,2:5])
+# df[1, 2:5] = paste0(x, " (", scales::percent(x/sum(x)), ")")
 df =  as.data.frame(df)
 df[2, 2:5] = gsub("[.](\\d)\\d", ".\\1", df[2,2:5])
 rows = which(df[, 1, drop = TRUE] %in% c("Normal", "Underweight", 
@@ -76,6 +78,8 @@ knitr::kable(df) %>%
 
 <div style="font-size: 30pt">
 **Many people DIED before being able to be asked**
+
+**> 50% no response**
 </div>
 
 ## Assessment to Accelerometry can be a WHILE
